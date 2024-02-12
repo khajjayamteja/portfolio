@@ -377,8 +377,39 @@
         </div>
 
       </div>
+
+
+    <script>
+  const form = document.getElementById("contactForm");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const response = await fetch(form.action, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+      body: formData,
+    });
+    if (response.ok) {
+      form.reset();
+      alert("Thank you for your message! We'll get back to you soon.");
+    } else {
+      alert("Oops! Something went wrong. Please try again later.");
+    }
+  });
+</script>
+
+      
     </section><!-- End Contact Section -->
 
+
+
+
+
+
+    
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
