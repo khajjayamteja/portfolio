@@ -1,19 +1,22 @@
 pipeline {
     agent any
- 
+    environment {
+        DOCKER_CREDENTIALS = credentials('docker')
+    }
     stages {
-        stage('Checkout') {
+        stage('Build') {
             steps {
-                // Checkout code from Git repository
-                checkout scm
+                script {
+                    docker.build("portfolio:v1")
+                }
             }
         }
-        stage('Display index.html') {
+        stage('Push to Docker Hub') {
             steps {
-                // Print contents of index.html
                 script {
-                    def indexFile = readFile('index.html')
-                    echo "Contents of index.html:\n${indexFile}"
+                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS) {
+                        docker.image("tejasaisrinivaskhajjayam/portfolio").push("latest")
+                    }
                 }
             }
         }
