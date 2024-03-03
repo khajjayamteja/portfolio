@@ -1,22 +1,15 @@
 pipeline {
     agent any
+    
     environment {
-        DOCKER_CREDENTIALS = credentials('docker')
+        DOCKER_IMAGE = 'Test'
     }
+    
     stages {
-        stage('Build') {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("portfolio:v1")
-                }
-            }
-        }
-        stage('Push to Docker Hub') {
-            steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS) {
-                        docker.image("tejasaisrinivaskhajjayam/portfolio").push("latest")
-                    }
+                    docker.build(DOCKER_IMAGE)
                 }
             }
         }
